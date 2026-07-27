@@ -9,3 +9,4 @@ target_sources(MainApp
     PRIVATE
         main.cpp
     )
+
