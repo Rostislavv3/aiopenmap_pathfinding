@@ -683,6 +683,12 @@ LIBSSH2_LIBRARY:FILEPATH=/opt/homebrew/lib/libssh2.dylib
 //Installation directory for libraries
 LIB_INSTALL_DIR:PATH=/usr/local/lib
 
+//Path to a file.
+OSMIUM_INCLUDE_DIR:PATH=/opt/homebrew/include
+
+//Recommended warning options for libosmium
+OSMIUM_WARNING_OPTIONS:STRING=-Wall -Wextra -pedantic -Wredundant-decls -Wdisabled-optimization -Wctor-dtor-privacy -Wnon-virtual-dtor -Woverloaded-virtual -Wsign-promo -Wold-style-cast
+
 //Path to a program.
 PERL_EXECUTABLE:FILEPATH=/usr/bin/perl
 
@@ -691,6 +697,9 @@ PICKY_COMPILER:BOOL=ON
 
 //Installation directory for pkgconfig (.pc) files
 PKGCONFIG_INSTALL_DIR:PATH=/usr/local/lib/pkgconfig
+
+//Path to a file.
+PROTOZERO_INCLUDE_DIR:PATH=/opt/homebrew/include
 
 //Value Computed by CMake
 PathFinder_BINARY_DIR:STATIC=/Users/rostikd/projects/PathFinder/build
@@ -1096,8 +1105,12 @@ DETECT_SSL_BACKEND:INTERNAL=ON
 ENABLE_IPV6-ADVANCED:INTERNAL=1
 //Details about finding LibSSH2
 FIND_PACKAGE_MESSAGE_DETAILS_LibSSH2:INTERNAL=[/opt/homebrew/lib/libssh2.dylib][/opt/homebrew/include][v1.11.1()]
+//Details about finding Osmium
+FIND_PACKAGE_MESSAGE_DETAILS_Osmium:INTERNAL=[/opt/homebrew/include][TRUE][TRUE][/opt/homebrew/include][v()]
 //Details about finding Perl
 FIND_PACKAGE_MESSAGE_DETAILS_Perl:INTERNAL=[/usr/bin/perl][v5.34.1()]
+//Details about finding Protozero
+FIND_PACKAGE_MESSAGE_DETAILS_Protozero:INTERNAL=[/opt/homebrew/include][v1.8.2(1.6.3)]
 //Details about finding Threads
 FIND_PACKAGE_MESSAGE_DETAILS_Threads:INTERNAL=[TRUE][v()]
 //Details about finding ZLIB

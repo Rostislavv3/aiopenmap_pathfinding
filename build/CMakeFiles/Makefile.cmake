@@ -51,6 +51,8 @@ set(CMAKE_MAKEFILE_DEPENDS
   "_deps/zlib-src/cmake/detect-install-dirs.cmake"
   "_deps/zlib-src/cmake/detect-sanitizer.cmake"
   "_deps/zlib-src/zlib.pc.cmakein"
+  "/Users/rostikd/projects/PathFinder/osmium_dependencies/FindOsmium.cmake"
+  "/Users/rostikd/projects/PathFinder/osmium_dependencies/FindProtozero.cmake"
   "/opt/homebrew/share/cmake/Modules/BasicConfigVersion-SameMajorVersion.cmake.in"
   "/opt/homebrew/share/cmake/Modules/CMakeCCompiler.cmake.in"
   "/opt/homebrew/share/cmake/Modules/CMakeCCompilerABI.c"

@@ -213,7 +213,8 @@ _deps/zlib-build/clean: _deps/zlib-build/CMakeFiles/zlib.dir/clean
 # Target rules for target CMakeFiles/MainApp.dir
 
 # All Build rule for target.
-CMakeFiles/MainApp.dir/all:
+CMakeFiles/MainApp.dir/all: _deps/curl-build/lib/CMakeFiles/libcurl_shared.dir/all
+CMakeFiles/MainApp.dir/all: _deps/cpr-build/cpr/CMakeFiles/cpr.dir/all
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/MainApp.dir/build.make CMakeFiles/MainApp.dir/depend
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/MainApp.dir/build.make CMakeFiles/MainApp.dir/build
 	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --progress-dir=/Users/rostikd/projects/PathFinder/build/CMakeFiles --progress-num= "Built target MainApp"
@@ -221,7 +222,7 @@ CMakeFiles/MainApp.dir/all:
 
 # Build rule for subdir invocation for target.
 CMakeFiles/MainApp.dir/rule: cmake_check_build_system
-	$(CMAKE_COMMAND) -E cmake_progress_start /Users/rostikd/projects/PathFinder/build/CMakeFiles 0
+	$(CMAKE_COMMAND) -E cmake_progress_start /Users/rostikd/projects/PathFinder/build/CMakeFiles 49
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 CMakeFiles/MainApp.dir/all
 	$(CMAKE_COMMAND) -E cmake_progress_start /Users/rostikd/projects/PathFinder/build/CMakeFiles 0
 .PHONY : CMakeFiles/MainApp.dir/rule

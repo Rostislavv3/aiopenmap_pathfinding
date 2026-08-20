@@ -95,6 +95,9 @@ MainApp_EXTERNAL_OBJECTS =
 
 MainApp: CMakeFiles/MainApp.dir/main.cpp.o
 MainApp: CMakeFiles/MainApp.dir/build.make
+MainApp: _deps/cpr-build/cpr/libcpr.1.10.5.dylib
+MainApp: /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/lib/libz.tbd
+MainApp: _deps/curl-build/lib/libcurl.4.8.0.dylib
 MainApp: CMakeFiles/MainApp.dir/link.txt
 	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --bold --progress-dir=/Users/rostikd/projects/PathFinder/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_2) "Linking CXX executable MainApp"
 	$(CMAKE_COMMAND) -E cmake_link_script CMakeFiles/MainApp.dir/link.txt --verbose=$(VERBOSE)
