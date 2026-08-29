@@ -1,0 +1,11 @@
+# ignores cmake build
+build/
+# data contains large osm.pbf files 
+data/*
+!data/.gitkeep
+# vs code debugger
+.vscode/
+# ignores files of types
+*.osm.pbf
+*.bin
+
