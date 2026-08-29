@@ -85,51 +85,6 @@ rebuild_cache:
 rebuild_cache/fast: rebuild_cache
 .PHONY : rebuild_cache/fast
 
-# Special rule for the target list_install_components
-list_install_components:
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --cyan "Available install components are: \"Unspecified\""
-.PHONY : list_install_components
-
-# Special rule for the target list_install_components
-list_install_components/fast: list_install_components
-.PHONY : list_install_components/fast
-
-# Special rule for the target install
-install: preinstall
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --cyan "Install the project..."
-	/opt/homebrew/bin/cmake -P cmake_install.cmake
-.PHONY : install
-
-# Special rule for the target install
-install/fast: preinstall/fast
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --cyan "Install the project..."
-	/opt/homebrew/bin/cmake -P cmake_install.cmake
-.PHONY : install/fast
-
-# Special rule for the target install/local
-install/local: preinstall
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --cyan "Installing only the local directory..."
-	/opt/homebrew/bin/cmake -DCMAKE_INSTALL_LOCAL_ONLY=1 -P cmake_install.cmake
-.PHONY : install/local
-
-# Special rule for the target install/local
-install/local/fast: preinstall/fast
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --cyan "Installing only the local directory..."
-	/opt/homebrew/bin/cmake -DCMAKE_INSTALL_LOCAL_ONLY=1 -P cmake_install.cmake
-.PHONY : install/local/fast
-
-# Special rule for the target install/strip
-install/strip: preinstall
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --cyan "Installing the project stripped..."
-	/opt/homebrew/bin/cmake -DCMAKE_INSTALL_DO_STRIP=1 -P cmake_install.cmake
-.PHONY : install/strip
-
-# Special rule for the target install/strip
-install/strip/fast: preinstall/fast
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --cyan "Installing the project stripped..."
-	/opt/homebrew/bin/cmake -DCMAKE_INSTALL_DO_STRIP=1 -P cmake_install.cmake
-.PHONY : install/strip/fast
-
 # The main all target
 all: cmake_check_build_system
 	$(CMAKE_COMMAND) -E cmake_progress_start /Users/rostikd/projects/PathFinder/build/CMakeFiles /Users/rostikd/projects/PathFinder/build//CMakeFiles/progress.marks
@@ -169,6 +124,19 @@ depend:
 .PHONY : depend
 
 #=============================================================================
+# Target rules for targets named GraphBuilder
+
+# Build rule for target.
+GraphBuilder: cmake_check_build_system
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 GraphBuilder
+.PHONY : GraphBuilder
+
+# fast build rule for target.
+GraphBuilder/fast:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/GraphBuilder.dir/build.make CMakeFiles/GraphBuilder.dir/build
+.PHONY : GraphBuilder/fast
+
+#=============================================================================
 # Target rules for targets named MainApp
 
 # Build rule for target.
@@ -181,94 +149,53 @@ MainApp/fast:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/MainApp.dir/build.make CMakeFiles/MainApp.dir/build
 .PHONY : MainApp/fast
 
-#=============================================================================
-# Target rules for targets named zlib
-
-# Build rule for target.
-zlib: cmake_check_build_system
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 zlib
-.PHONY : zlib
-
-# fast build rule for target.
-zlib/fast:
-	$(MAKE) $(MAKESILENT) -f _deps/zlib-build/CMakeFiles/zlib.dir/build.make _deps/zlib-build/CMakeFiles/zlib.dir/build
-.PHONY : zlib/fast
-
-#=============================================================================
-# Target rules for targets named curl_uninstall
-
-# Build rule for target.
-curl_uninstall: cmake_check_build_system
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 curl_uninstall
-.PHONY : curl_uninstall
-
-# fast build rule for target.
-curl_uninstall/fast:
-	$(MAKE) $(MAKESILENT) -f _deps/curl-build/CMakeFiles/curl_uninstall.dir/build.make _deps/curl-build/CMakeFiles/curl_uninstall.dir/build
-.PHONY : curl_uninstall/fast
-
-#=============================================================================
-# Target rules for targets named curlu
-
-# Build rule for target.
-curlu: cmake_check_build_system
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 curlu
-.PHONY : curlu
-
-# fast build rule for target.
-curlu/fast:
-	$(MAKE) $(MAKESILENT) -f _deps/curl-build/lib/CMakeFiles/curlu.dir/build.make _deps/curl-build/lib/CMakeFiles/curlu.dir/build
-.PHONY : curlu/fast
-
-#=============================================================================
-# Target rules for targets named libcurl_shared
-
-# Build rule for target.
-libcurl_shared: cmake_check_build_system
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 libcurl_shared
-.PHONY : libcurl_shared
-
-# fast build rule for target.
-libcurl_shared/fast:
-	$(MAKE) $(MAKESILENT) -f _deps/curl-build/lib/CMakeFiles/libcurl_shared.dir/build.make _deps/curl-build/lib/CMakeFiles/libcurl_shared.dir/build
-.PHONY : libcurl_shared/fast
-
-#=============================================================================
-# Target rules for targets named cpr
-
-# Build rule for target.
-cpr: cmake_check_build_system
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 cpr
-.PHONY : cpr
-
-# fast build rule for target.
-cpr/fast:
-	$(MAKE) $(MAKESILENT) -f _deps/cpr-build/cpr/CMakeFiles/cpr.dir/build.make _deps/cpr-build/cpr/CMakeFiles/cpr.dir/build
-.PHONY : cpr/fast
-
-main.o: main.cpp.o
-.PHONY : main.o
+src/builder/graph_builder.o: src/builder/graph_builder.cpp.o
+.PHONY : src/builder/graph_builder.o
 
 # target to build an object file
-main.cpp.o:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/MainApp.dir/build.make CMakeFiles/MainApp.dir/main.cpp.o
-.PHONY : main.cpp.o
+src/builder/graph_builder.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/GraphBuilder.dir/build.make CMakeFiles/GraphBuilder.dir/src/builder/graph_builder.cpp.o
+.PHONY : src/builder/graph_builder.cpp.o
 
-main.i: main.cpp.i
-.PHONY : main.i
+src/builder/graph_builder.i: src/builder/graph_builder.cpp.i
+.PHONY : src/builder/graph_builder.i
 
 # target to preprocess a source file
-main.cpp.i:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/MainApp.dir/build.make CMakeFiles/MainApp.dir/main.cpp.i
-.PHONY : main.cpp.i
+src/builder/graph_builder.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/GraphBuilder.dir/build.make CMakeFiles/GraphBuilder.dir/src/builder/graph_builder.cpp.i
+.PHONY : src/builder/graph_builder.cpp.i
 
-main.s: main.cpp.s
-.PHONY : main.s
+src/builder/graph_builder.s: src/builder/graph_builder.cpp.s
+.PHONY : src/builder/graph_builder.s
 
 # target to generate assembly for a file
-main.cpp.s:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/MainApp.dir/build.make CMakeFiles/MainApp.dir/main.cpp.s
-.PHONY : main.cpp.s
+src/builder/graph_builder.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/GraphBuilder.dir/build.make CMakeFiles/GraphBuilder.dir/src/builder/graph_builder.cpp.s
+.PHONY : src/builder/graph_builder.cpp.s
+
+src/router/main.o: src/router/main.cpp.o
+.PHONY : src/router/main.o
+
+# target to build an object file
+src/router/main.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/MainApp.dir/build.make CMakeFiles/MainApp.dir/src/router/main.cpp.o
+.PHONY : src/router/main.cpp.o
+
+src/router/main.i: src/router/main.cpp.i
+.PHONY : src/router/main.i
+
+# target to preprocess a source file
+src/router/main.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/MainApp.dir/build.make CMakeFiles/MainApp.dir/src/router/main.cpp.i
+.PHONY : src/router/main.cpp.i
+
+src/router/main.s: src/router/main.cpp.s
+.PHONY : src/router/main.s
+
+# target to generate assembly for a file
+src/router/main.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/MainApp.dir/build.make CMakeFiles/MainApp.dir/src/router/main.cpp.s
+.PHONY : src/router/main.cpp.s
 
 # Help Target
 help:
@@ -278,20 +205,15 @@ help:
 	@echo "... depend"
 	@echo "... codegen"
 	@echo "... edit_cache"
-	@echo "... install"
-	@echo "... install/local"
-	@echo "... install/strip"
-	@echo "... list_install_components"
 	@echo "... rebuild_cache"
-	@echo "... curl_uninstall"
+	@echo "... GraphBuilder"
 	@echo "... MainApp"
-	@echo "... cpr"
-	@echo "... curlu"
-	@echo "... libcurl_shared"
-	@echo "... zlib"
-	@echo "... main.o"
-	@echo "... main.i"
-	@echo "... main.s"
+	@echo "... src/builder/graph_builder.o"
+	@echo "... src/builder/graph_builder.i"
+	@echo "... src/builder/graph_builder.s"
+	@echo "... src/router/main.o"
+	@echo "... src/router/main.i"
+	@echo "... src/router/main.s"
 .PHONY : help
 
 

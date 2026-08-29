@@ -72,32 +72,29 @@ include CMakeFiles/MainApp.dir/flags.make
 CMakeFiles/MainApp.dir/codegen:
 .PHONY : CMakeFiles/MainApp.dir/codegen
 
-CMakeFiles/MainApp.dir/main.cpp.o: CMakeFiles/MainApp.dir/flags.make
-CMakeFiles/MainApp.dir/main.cpp.o: /Users/rostikd/projects/PathFinder/main.cpp
-CMakeFiles/MainApp.dir/main.cpp.o: CMakeFiles/MainApp.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/Users/rostikd/projects/PathFinder/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_1) "Building CXX object CMakeFiles/MainApp.dir/main.cpp.o"
-	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/MainApp.dir/main.cpp.o -MF CMakeFiles/MainApp.dir/main.cpp.o.d -o CMakeFiles/MainApp.dir/main.cpp.o -c /Users/rostikd/projects/PathFinder/main.cpp
+CMakeFiles/MainApp.dir/src/router/main.cpp.o: CMakeFiles/MainApp.dir/flags.make
+CMakeFiles/MainApp.dir/src/router/main.cpp.o: /Users/rostikd/projects/PathFinder/src/router/main.cpp
+CMakeFiles/MainApp.dir/src/router/main.cpp.o: CMakeFiles/MainApp.dir/compiler_depend.ts
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/Users/rostikd/projects/PathFinder/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_1) "Building CXX object CMakeFiles/MainApp.dir/src/router/main.cpp.o"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/MainApp.dir/src/router/main.cpp.o -MF CMakeFiles/MainApp.dir/src/router/main.cpp.o.d -o CMakeFiles/MainApp.dir/src/router/main.cpp.o -c /Users/rostikd/projects/PathFinder/src/router/main.cpp
 
-CMakeFiles/MainApp.dir/main.cpp.i: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Preprocessing CXX source to CMakeFiles/MainApp.dir/main.cpp.i"
-	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /Users/rostikd/projects/PathFinder/main.cpp > CMakeFiles/MainApp.dir/main.cpp.i
+CMakeFiles/MainApp.dir/src/router/main.cpp.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Preprocessing CXX source to CMakeFiles/MainApp.dir/src/router/main.cpp.i"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /Users/rostikd/projects/PathFinder/src/router/main.cpp > CMakeFiles/MainApp.dir/src/router/main.cpp.i
 
-CMakeFiles/MainApp.dir/main.cpp.s: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling CXX source to assembly CMakeFiles/MainApp.dir/main.cpp.s"
-	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /Users/rostikd/projects/PathFinder/main.cpp -o CMakeFiles/MainApp.dir/main.cpp.s
+CMakeFiles/MainApp.dir/src/router/main.cpp.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling CXX source to assembly CMakeFiles/MainApp.dir/src/router/main.cpp.s"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /Users/rostikd/projects/PathFinder/src/router/main.cpp -o CMakeFiles/MainApp.dir/src/router/main.cpp.s
 
 # Object files for target MainApp
 MainApp_OBJECTS = \
-"CMakeFiles/MainApp.dir/main.cpp.o"
+"CMakeFiles/MainApp.dir/src/router/main.cpp.o"
 
 # External object files for target MainApp
 MainApp_EXTERNAL_OBJECTS =
 
-MainApp: CMakeFiles/MainApp.dir/main.cpp.o
+MainApp: CMakeFiles/MainApp.dir/src/router/main.cpp.o
 MainApp: CMakeFiles/MainApp.dir/build.make
-MainApp: _deps/cpr-build/cpr/libcpr.1.10.5.dylib
-MainApp: /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/lib/libz.tbd
-MainApp: _deps/curl-build/lib/libcurl.4.8.0.dylib
 MainApp: CMakeFiles/MainApp.dir/link.txt
 	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --bold --progress-dir=/Users/rostikd/projects/PathFinder/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_2) "Linking CXX executable MainApp"
 	$(CMAKE_COMMAND) -E cmake_link_script CMakeFiles/MainApp.dir/link.txt --verbose=$(VERBOSE)

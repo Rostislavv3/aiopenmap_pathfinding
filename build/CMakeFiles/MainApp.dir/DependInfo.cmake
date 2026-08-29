@@ -8,7 +8,7 @@ set(CMAKE_DEPENDS_LANGUAGES
 
 # The set of dependency files which are needed:
 set(CMAKE_DEPENDS_DEPENDENCY_FILES
-  "/Users/rostikd/projects/PathFinder/main.cpp" "CMakeFiles/MainApp.dir/main.cpp.o" "gcc" "CMakeFiles/MainApp.dir/main.cpp.o.d"
+  "/Users/rostikd/projects/PathFinder/src/router/main.cpp" "CMakeFiles/MainApp.dir/src/router/main.cpp.o" "gcc" "CMakeFiles/MainApp.dir/src/router/main.cpp.o.d"
   )
 
 # Targets to which this target links which contain Fortran sources.

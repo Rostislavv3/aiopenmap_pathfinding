@@ -6,26 +6,35 @@ set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
 
-include(FetchContent)
-
-FetchContent_Declare(cpr
-    GIT_REPOSITORY https://github.com/libcpr/cpr.git
-    GIT_TAG        1.10.5 # A recent, stable version
-)
-
 list(APPEND CMAKE_MODULE_PATH "${CMAKE_SOURCE_DIR}/osmium_dependencies")
 list(APPEND CMAKE_PREFIX_PATH "/opt/homebrew")
 
 find_package(Osmium REQUIRED COMPONENTS pbf)
-FetchContent_MakeAvailable(cpr)
+find_package(ZLIB REQUIRED)
+find_package(EXPAT REQUIRED)
 
-add_executable(MainApp)
-
-target_sources(MainApp 
+add_executable(GraphBuilder) #adds graph builder
+target_sources(GraphBuilder 
     PRIVATE
-        main.cpp
+        ./src/builder/graph_builder.cpp
     )
 
-target_link_libraries(MainApp PUBLIC cpr::cpr ${OSMIUM_LIBRARIES})
+target_include_directories(GraphBuilder #includes the path to osmium
+    PRIVATE 
+        ${OSMIUM_INCLUDE_DIRS} 
+        "/opt/homebrew/include"
+)
 
-target_include_directories(MainApp PRIVATE ${OSMIUM_INCLUDE_DIRS})
+target_link_libraries(GraphBuilder #links osmium to GraphBuilder
+    PRIVATE
+        ${OSMIUM_LIBRARIES}
+        ZLIB::ZLIB
+        EXPAT::EXPAT
+)
+
+add_executable(MainApp) #adds router
+target_sources(MainApp
+    PRIVATE
+        ./src/router/main.cpp
+    )
+
