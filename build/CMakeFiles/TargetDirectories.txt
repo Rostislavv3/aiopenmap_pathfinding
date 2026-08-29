@@ -1,4 +1,0 @@
-/Users/rostikd/projects/PathFinder/build/CMakeFiles/GraphBuilder.dir
-/Users/rostikd/projects/PathFinder/build/CMakeFiles/MainApp.dir
-/Users/rostikd/projects/PathFinder/build/CMakeFiles/edit_cache.dir
-/Users/rostikd/projects/PathFinder/build/CMakeFiles/rebuild_cache.dir
