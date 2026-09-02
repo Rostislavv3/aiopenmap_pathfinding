@@ -6,25 +6,30 @@
 
 #include <osmium/osm/node.hpp>
 #include <osmium/osm/way.hpp>
-#include "WayHighwayExtractor.h"
 #include <unordered_set>
 
+#include "WayHighwayExtractor.h"
 
 
-
-
-int main(int argc, char *argv[])
-{   
-
-    std::string filename = "data/us-midwest.osm.pbf";
+std::unordered_set<uint64_t> highwayNodeExtractor(std::string filename)
+{
     osmium::io::Reader reader{filename, osmium::osm_entity_bits::way};
+    std::unordered_set<uint64_t> nodes {};
 
-    myWayHandler handler;
+    WayHighwayExtractor handler {};
 
-    
     osmium::apply(reader, handler);
 
-    reader.close();
 
+    reader.close();
+    return handler.getNodes();
+}
+
+int main(int argc, char *argv[])
+{
+    std::string filename = "data/us-midwest.osm.pbf";
+
+    std::unordered_set<uint64_t> setOfNodes = highwayNodeExtractor(filename);
+    std::cout << setOfNodes.size() << std::endl;
     return 0;
 }

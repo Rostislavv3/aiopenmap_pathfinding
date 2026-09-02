@@ -2,14 +2,17 @@
 #include <iostream>
 
 
-void myWayHandler::way(const osmium::Way &way)
+void WayHighwayExtractor::way(const osmium::Way &way)
 {   
-    std::cout << "Way ID: " << way.id() << '\n';
-    for (const osmium::Tag &t : way.tags())
-    {
-        std::cout << "  " << t.key() << "=" << t.value() << '\n';
+    if(!way.tags().has_key("highway")){
+        return;
     }
-    std::cout << "-----------------------\n";
 
-    way_count++;
+    for(const osmium::NodeRef &node : way.nodes()){
+        node_ids.insert(node.ref());
+    }
+}
+
+std::unordered_set<uint64_t> WayHighwayExtractor::getNodes(){
+    return node_ids;
 }
