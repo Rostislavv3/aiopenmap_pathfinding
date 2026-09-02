@@ -6,23 +6,24 @@
 
 #include <osmium/osm/node.hpp>
 #include <osmium/osm/way.hpp>
-#include "wayHandler.h"
+#include "WayHighwayExtractor.h"
+#include <unordered_set>
+
 
 
 
 
 int main(int argc, char *argv[])
-{
+{   
+
     std::string filename = "data/us-midwest.osm.pbf";
     osmium::io::Reader reader{filename, osmium::osm_entity_bits::way};
 
     myWayHandler handler;
 
-    try {
-        osmium::apply(reader, handler);
-    }catch(const EarlyExitException&){
-        std::cout << "Successfully stopped after 40 ways.\n";
-    }
+    
+    osmium::apply(reader, handler);
+
     reader.close();
 
     return 0;

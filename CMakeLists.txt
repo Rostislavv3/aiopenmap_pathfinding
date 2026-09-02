@@ -17,7 +17,7 @@ add_executable(GraphBuilder) #adds graph builder
 target_sources(GraphBuilder 
     PRIVATE
         ./src/builder/graph_builder.cpp
-        ./src/builder/wayHandler.cpp
+        ./src/builder/WayHighwayExtractor.cpp
     )
 
 target_include_directories(GraphBuilder #includes the path to osmium
