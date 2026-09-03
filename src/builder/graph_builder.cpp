@@ -7,6 +7,7 @@
 #include <osmium/osm/node.hpp>
 #include <osmium/osm/way.hpp>
 #include <unordered_set>
+#include <unordered_map>
 
 #include "WayHighwayExtractor.h"
 
@@ -24,6 +25,8 @@ std::unordered_set<uint64_t> highwayNodeExtractor(std::string filename)
     reader.close();
     return handler.getNodes();
 }
+
+
 
 int main(int argc, char *argv[])
 {

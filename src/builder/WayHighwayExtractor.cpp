@@ -1,12 +1,16 @@
 #include "WayHighwayExtractor.h"
 #include <iostream>
 
-
+// extracts nodes that are affiliated with roads, 
 void WayHighwayExtractor::way(const osmium::Way &way)
 {   
-    if(!way.tags().has_key("highway")){
+    const char* highway_tag = way.tags().get_value_by_key("highway");
+    if(!highway_tag){
         return;
     }
+    RoadSequence currSequences;
+
+    // if(highway_tag)
 
     for(const osmium::NodeRef &node : way.nodes()){
         node_ids.insert(node.ref());
