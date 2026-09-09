@@ -2,6 +2,10 @@
 #include <iostream>
 #include <string_view>
 
+int speed_extractor(const char* speed_tag){
+    
+}
+
 // extracts nodes that are affiliated with roads, 
 void WayHighwayExtractor::way(const osmium::Way &way)
 {   
@@ -12,15 +16,10 @@ void WayHighwayExtractor::way(const osmium::Way &way)
     RoadSequence currSequence;
 
     const char* maxspeed_tag = way.tags().get_value_by_key("maxspeed");
-
-    std::string_view ref_maxspeed_tag = (maxspeed_tag != nullptr) ? maxspeed_tag : "";
-
-    if(!ref_maxspeed_tag.empty()){
-        if(ref_maxspeed_tag.find("mph") != std::string::npos){
-            currSequence.speed_limit_mph = std::string::stoi(ref_maxspeed_tag.substr(0, ref_maxspeed_tag.find(" ")));
-        }
-        currSequence.speed_limit_mph = int(maxspeed_tag);
-    } 
+    
+    if(maxspeed_tag){
+        currSequence.speed_limit_mph = speed_extractor(maxspeed_tag);
+    }
 
 
     for(const osmium::NodeRef &node : way.nodes()){
