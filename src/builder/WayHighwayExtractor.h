@@ -9,7 +9,7 @@
 struct RoadSequence
 {
     std::vector<uint64_t> road_sequence;
-    size_t speed_limit_kmh;
+    size_t speed_limit_mph;
 };
 
 
