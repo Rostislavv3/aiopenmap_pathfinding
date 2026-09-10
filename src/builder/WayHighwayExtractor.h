@@ -16,6 +16,7 @@ struct RoadSequence
 class WayHighwayExtractor : public osmium::handler::Handler {
     public:
         std::unordered_set<uint64_t> getNodes();
+        std::vector<RoadSequence> getRoadSequences();
         void way(const osmium::Way& node);
     private:
         std::unordered_set<uint64_t> node_ids;
