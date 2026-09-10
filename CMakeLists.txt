@@ -18,6 +18,7 @@ target_sources(GraphBuilder
     PRIVATE
         ./src/builder/graph_builder.cpp
         ./src/builder/WayHighwayExtractor.cpp
+        ./src/builder/NodeLocationExtractor.cpp
     )
 
 target_include_directories(GraphBuilder #includes the path to osmium

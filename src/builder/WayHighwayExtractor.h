@@ -1,7 +1,6 @@
 #pragma once
 #include <osmium/handler.hpp>
 #include <osmium/osm/way.hpp>
-#include <exception>
 #include <unordered_set>
 #include <vector>
 
@@ -17,7 +16,7 @@ class WayHighwayExtractor : public osmium::handler::Handler {
     public:
         std::unordered_set<uint64_t> getNodes();
         std::vector<RoadSequence> getRoadSequences();
-        void way(const osmium::Way& node);
+        void way(const osmium::Way& way);
     private:
         std::unordered_set<uint64_t> node_ids;
         std::vector<RoadSequence> road_sequences;

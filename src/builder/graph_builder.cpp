@@ -10,6 +10,8 @@
 #include <unordered_map>
 
 #include "WayHighwayExtractor.h"
+#include "NodeLocationExtractor.h"
+
 
 
 std::unordered_set<uint64_t> highwayNodeExtractor(std::string filename)
