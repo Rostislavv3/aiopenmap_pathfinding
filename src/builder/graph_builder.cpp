@@ -11,6 +11,10 @@
 
 #include "WayHighwayExtractor.h"
 #include "NodeLocationExtractor.h"
+#include "common/Edge.h"
+#include "common/Vertex.h"
+
+
 
 
 

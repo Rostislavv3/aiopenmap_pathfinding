@@ -23,6 +23,7 @@ target_sources(GraphBuilder
 
 target_include_directories(GraphBuilder #includes the path to osmium
     PRIVATE 
+        ${CMAKE_SOURCE_DIR}/src
         ${OSMIUM_INCLUDE_DIRS} 
         "/opt/homebrew/include"
 )
@@ -39,4 +40,9 @@ target_sources(MainApp
     PRIVATE
         ./src/router/main.cpp
     )
+
+target_include_directories(MainApp
+    PRIVATE
+        ${CMAKE_SOURCE_DIR}/src
+)
 
