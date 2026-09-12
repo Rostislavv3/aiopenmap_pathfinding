@@ -1,5 +1,4 @@
-#ifndef VERTEX_H
-#define VERTEX_H
+#pragma once
 
 #include <vector>
 
@@ -12,4 +11,3 @@ struct Vertex
     std::vector<Edge*> outgoing_edges{};
 };
 
-#endif // VERTEX_H

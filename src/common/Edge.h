@@ -1,5 +1,4 @@
-#ifndef EDGE_H
-#define EDGE_H
+#pragma once
 
 #include <cstddef>
 #include <cstdint>
@@ -11,5 +10,3 @@ struct Edge
     size_t speed_limit;
     double time_seconds;
 };
-
-#endif // EDGE_H
