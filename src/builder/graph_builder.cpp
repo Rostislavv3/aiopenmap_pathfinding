@@ -13,19 +13,21 @@
 #include "common/Edge.h"
 #include "common/Vertex.h"
 
-
-std::unordered_set<uint64_t> highwayNodeExtractor(std::string filename)
+//needs to be refactored
+void extract_graph(const std::string& filename, GraphExtractor& handler)
 {
-    osmium::io::Reader reader{filename, osmium::osm_entity_bits::way};
-    std::unordered_set<uint64_t> nodes {};
-
-    GraphExtractor handler {};
-
-    osmium::apply(reader, handler);
-
-
-    reader.close();
-    return handler.getNodes();
+    {
+    osmium::io::Reader way_reader{filename, osmium::osm_entity_bits::way};
+    osmium::apply(way_reader, handler);
+    way_reader.close();
+    }  
+    
+    {
+    osmium::io::Reader node_reader{filename, osmium::osm_entity_bits::node};
+    osmium::apply(node_reader, handler);
+    node_reader.close();
+    }  
+    
 }
 
 
@@ -33,8 +35,11 @@ std::unordered_set<uint64_t> highwayNodeExtractor(std::string filename)
 int main(int argc, char *argv[])
 {
     std::string filename = "data/us-midwest.osm.pbf";
-    
-    std::unordered_set<uint64_t> *setOfNodes = &highwayNodeExtractor(filename);
-    std::cout << setOfNodes->size() << std::endl;
+    GraphExtractor handler {}; 
+
+    extract_graph(filename, handler);
+    //build the graph
+
+
     return 0;
 }
