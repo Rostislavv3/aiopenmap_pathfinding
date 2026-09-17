@@ -14,9 +14,6 @@
 #include "common/Vertex.h"
 
 
-
-
-
 std::unordered_set<uint64_t> highwayNodeExtractor(std::string filename)
 {
     osmium::io::Reader reader{filename, osmium::osm_entity_bits::way};
@@ -36,8 +33,8 @@ std::unordered_set<uint64_t> highwayNodeExtractor(std::string filename)
 int main(int argc, char *argv[])
 {
     std::string filename = "data/us-midwest.osm.pbf";
-
-    std::unordered_set<uint64_t> setOfNodes = highwayNodeExtractor(filename);
-    std::cout << setOfNodes.size() << std::endl;
+    
+    std::unordered_set<uint64_t> *setOfNodes = &highwayNodeExtractor(filename);
+    std::cout << setOfNodes->size() << std::endl;
     return 0;
 }
