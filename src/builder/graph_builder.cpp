@@ -9,8 +9,7 @@
 #include <unordered_set>
 #include <unordered_map>
 
-#include "WayHighwayExtractor.h"
-#include "NodeLocationExtractor.h"
+#include "GraphExtractor.h"
 #include "common/Edge.h"
 #include "common/Vertex.h"
 
@@ -23,7 +22,7 @@ std::unordered_set<uint64_t> highwayNodeExtractor(std::string filename)
     osmium::io::Reader reader{filename, osmium::osm_entity_bits::way};
     std::unordered_set<uint64_t> nodes {};
 
-    WayHighwayExtractor handler {};
+    GraphExtractor handler {};
 
     osmium::apply(reader, handler);
 
