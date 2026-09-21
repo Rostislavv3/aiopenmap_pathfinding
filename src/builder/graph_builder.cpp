@@ -12,8 +12,9 @@
 #include "GraphExtractor.h"
 #include "common/Edge.h"
 #include "common/Vertex.h"
+#include "haversine_km.h"
 
-//needs to be refactored
+
 void extract_graph(const std::string& filename, GraphExtractor& handler)
 {
     {
