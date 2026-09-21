@@ -8,7 +8,7 @@
 // this function extracts ways and keeps the order of the nodes in a struct called
 // road sequence, then, it supposed to be used again in the reader to extract nodes'
 // lontitude and latitude to thereafter use it in graph construction
-struct RoadSequence
+struct ExtractedWay
 {
     std::vector<uint64_t> road_sequence;
     size_t speed_limit_mph;
@@ -23,7 +23,7 @@ struct NodeLocation{
 class GraphExtractor : public osmium::handler::Handler {
     public:
         std::unordered_set<uint64_t> getNodes() const;
-        std::vector<RoadSequence> getRoadSequences() const;
+        std::vector<ExtractedWay> getExtractedWays() const;
         std::unordered_map<uint64_t, NodeLocation> getNodeLocs() const;
 
         void way(const osmium::Way& way);
@@ -32,5 +32,5 @@ class GraphExtractor : public osmium::handler::Handler {
     private:
         std::unordered_set<uint64_t> node_ids;
         std::unordered_map<uint64_t, NodeLocation> node_locs;
-        std::vector<RoadSequence> road_sequences;
+        std::vector<ExtractedWay> extracted_ways;
 };

@@ -46,7 +46,7 @@ void GraphExtractor::way(const osmium::Way &way)
     {
         return;
     }
-    RoadSequence currSequence;
+    ExtractedWay currSequence;
 
     const char *maxspeed_tag = way.tags().get_value_by_key("maxspeed");
 
@@ -94,7 +94,7 @@ void GraphExtractor::way(const osmium::Way &way)
         currSequence.road_sequence.emplace_back(node.ref());
         node_ids.insert(node.ref());
     }
-    road_sequences.emplace_back(currSequence);
+    extracted_ways.emplace_back(currSequence);
 }
 
 void GraphExtractor::node(const osmium::Node &node)
@@ -115,9 +115,9 @@ std::unordered_set<uint64_t> GraphExtractor::getNodes() const
     return node_ids;
 }
 
-std::vector<RoadSequence> GraphExtractor::getRoadSequences() const
+std::vector<ExtractedWay> GraphExtractor::getExtractedWays() const
 {
-    return road_sequences;
+    return extracted_ways;
 }
 
 std::unordered_map<uint64_t, NodeLocation> GraphExtractor::getNodeLocs() const
