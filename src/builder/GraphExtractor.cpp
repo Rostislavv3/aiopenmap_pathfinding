@@ -3,39 +3,39 @@
 #include <string_view>
 #include <charconv>
 
-void string_speed_extractor(std::string_view &speed_string, double &speed)
-{
-    const char *start = speed_string.data();
-    const char *end = start + speed_string.size();
-
-    while (start != end && (*start < '0' || *start > '9'))
+// helpers 
+namespace{
+    void string_speed_extractor(std::string_view &speed_string, double &speed)
     {
-        start++;
+        const char *start = speed_string.data();
+        const char *end = start + speed_string.size();
+
+        while (start != end && (*start < '0' || *start > '9'))
+        {
+            start++;
+        }
+
+        while (end != start && (*end < '0' || *end > '9'))
+        {
+            end--;
+        }
+
+        std::from_chars(start, end, speed);
     }
 
-    while (end != start && (*end < '0' || *end > '9'))
+    size_t speed_extractor(const char *speed_tag)
     {
-        end--;
-    }
-
-    std::from_chars(start, end, speed);
-}
-
-size_t speed_extractor(const char *speed_tag)
-{
-    std::string_view ref_to_speed_tag{speed_tag};
-    double speed = -1;
-
-    if (ref_to_speed_tag.find("mph") == std::string::npos)
-    {
+        std::string_view ref_to_speed_tag{speed_tag};
+        double speed = 0;
         string_speed_extractor(ref_to_speed_tag, speed);
+
+
+        if (!(ref_to_speed_tag.find("mph") == std::string::npos))
+        {
+            speed = speed * 1.60934;
+        }
+        return static_cast<std::size_t>(speed);
     }
-    else
-    {
-        string_speed_extractor(ref_to_speed_tag, speed);
-        speed = speed * 1.60934;
-    }
-    return static_cast<std::size_t>(speed);
 }
 
 // extracts nodes that are part of roads and saves their order
@@ -94,6 +94,8 @@ void GraphExtractor::way(const osmium::Way &way)
         currSequence.road_sequence.emplace_back(node.ref());
         node_ids.insert(node.ref());
     }
+
+
     extracted_ways.emplace_back(currSequence);
 }
 

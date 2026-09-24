@@ -10,6 +10,8 @@
 // lontitude and latitude to thereafter use it in graph construction
 struct ExtractedWay
 {
+    // add enum class for road directions
+    // retrieve road directions in cpp file
     std::vector<uint64_t> road_sequence;
     size_t speed_limit_mph;
 };
