@@ -12,6 +12,12 @@ struct ExtractedWay
 {
     // add enum class for road directions
     // retrieve road directions in cpp file
+    enum class Direction{
+        Reverse,
+        Forward,
+        Bidirectional,
+    };
+    Direction direction;
     std::vector<uint64_t> road_sequence;
     size_t speed_limit_mph;
 };

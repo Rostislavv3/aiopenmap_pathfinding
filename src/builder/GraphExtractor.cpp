@@ -5,6 +5,39 @@
 
 // helpers 
 namespace{
+    ExtractedWay::Direction extractDirection(const osmium::Way &way){
+        const char* oneway_val = way.tags()["oneway"];
+        const char* highway_val = way.tags()["highway"];
+        const char* junction_val = way.tags()["junction"];
+
+        if (oneway_val) {
+            std::string_view val(oneway_val);
+            if (val == "yes" || val == "true" || val == "1") {
+                return ExtractedWay::Direction::Forward;
+            }
+            if (val == "-1" || val == "reverse") {
+                return ExtractedWay::Direction::Reverse;
+            }
+            if (val == "no" || val == "false" || val == "0") {
+                return ExtractedWay::Direction::Bidirectional;
+            }
+        }
+
+        if (highway_val) {
+            std::string_view hwy(highway_val);
+            if (hwy == "motorway" || hwy == "motorway_link") {
+                return ExtractedWay::Direction::Forward;
+            }
+        }
+
+        if (junction_val) {
+            std::string_view junc(junction_val);
+            if (junc == "roundabout" || junc == "circular") {
+                return ExtractedWay::Direction::Forward;
+            }
+        }
+    }
+
     void string_speed_extractor(std::string_view &speed_string, double &speed)
     {
         const char *start = speed_string.data();
@@ -46,57 +79,59 @@ void GraphExtractor::way(const osmium::Way &way)
     {
         return;
     }
-    ExtractedWay currSequence;
+    ExtractedWay currentWay;
 
     const char *maxspeed_tag = way.tags().get_value_by_key("maxspeed");
 
     if (maxspeed_tag)
     {
-        currSequence.speed_limit_mph = speed_extractor(maxspeed_tag);
+        currentWay.speed_limit_mph = speed_extractor(maxspeed_tag);
     }
 
     std::string_view ref_to_highway_tag(highway_tag);
     if (ref_to_highway_tag == "motorway")
-        currSequence.speed_limit_mph = 65;
+        currentWay.speed_limit_mph = 65;
     else if (ref_to_highway_tag == "motorway_link")
-        currSequence.speed_limit_mph = 40;
+        currentWay.speed_limit_mph = 40;
     else if (ref_to_highway_tag == "trunk")
-        currSequence.speed_limit_mph = 55;
+        currentWay.speed_limit_mph = 55;
     else if (ref_to_highway_tag == "trunk_link")
-        currSequence.speed_limit_mph = 35;
+        currentWay.speed_limit_mph = 35;
     else if (ref_to_highway_tag == "primary")
-        currSequence.speed_limit_mph = 45;
+        currentWay.speed_limit_mph = 45;
     else if (ref_to_highway_tag == "primary_link")
-        currSequence.speed_limit_mph = 30;
+        currentWay.speed_limit_mph = 30;
     else if (ref_to_highway_tag == "secondary")
-        currSequence.speed_limit_mph = 35;
+        currentWay.speed_limit_mph = 35;
     else if (ref_to_highway_tag == "secondary_link")
-        currSequence.speed_limit_mph = 25;
+        currentWay.speed_limit_mph = 25;
     else if (ref_to_highway_tag == "tertiary")
-        currSequence.speed_limit_mph = 30;
+        currentWay.speed_limit_mph = 30;
     else if (ref_to_highway_tag == "tertiary_link")
-        currSequence.speed_limit_mph = 20;
+        currentWay.speed_limit_mph = 20;
     else if (ref_to_highway_tag == "unclasselse ified")
-        currSequence.speed_limit_mph = 35;
+        currentWay.speed_limit_mph = 35;
     else if (ref_to_highway_tag == "residential")
-        currSequence.speed_limit_mph = 25;
+        currentWay.speed_limit_mph = 25;
     else if (ref_to_highway_tag == "living_street")
-        currSequence.speed_limit_mph = 15;
+        currentWay.speed_limit_mph = 15;
     else if (ref_to_highway_tag == "service")
-        currSequence.speed_limit_mph = 10;
+        currentWay.speed_limit_mph = 10;
     else if (ref_to_highway_tag == "track")
-        currSequence.speed_limit_mph = 15;
+        currentWay.speed_limit_mph = 15;
     else
-        currSequence.speed_limit_mph = 25;
+        currentWay.speed_limit_mph = 25;
 
     for (const osmium::NodeRef &node : way.nodes())
     {
-        currSequence.road_sequence.emplace_back(node.ref());
+        currentWay.road_sequence.emplace_back(node.ref());
         node_ids.insert(node.ref());
     }
 
+    // direction
+    currentWay.direction = extractDirection(way);
 
-    extracted_ways.emplace_back(currSequence);
+    extracted_ways.emplace_back(currentWay);
 }
 
 void GraphExtractor::node(const osmium::Node &node)
