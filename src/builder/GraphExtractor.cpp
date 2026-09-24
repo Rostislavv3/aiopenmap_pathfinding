@@ -36,6 +36,7 @@ namespace{
                 return ExtractedWay::Direction::Forward;
             }
         }
+        return ExtractedWay::Direction::Bidirectional;
     }
 
     void string_speed_extractor(std::string_view &speed_string, double &speed)

@@ -22,13 +22,14 @@ void extract_graph(const std::string& filename, GraphExtractor& handler)
     osmium::apply(way_reader, handler);
     way_reader.close();
     }  
+    std::cout<<"stage 1 pass" << std::endl;
     
     {
     osmium::io::Reader node_reader{filename, osmium::osm_entity_bits::node};
     osmium::apply(node_reader, handler);
     node_reader.close();
     }  
-    
+    std::cout<<"stage 2 pass" << "\n";
 }
 
 
