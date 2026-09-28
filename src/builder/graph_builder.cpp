@@ -10,6 +10,7 @@
 #include <unordered_map>
 
 #include "GraphExtractor.h"
+#include "GraphAssembler.h"
 #include "common/Edge.h"
 #include "common/Vertex.h"
 #include "haversine_km.h"
