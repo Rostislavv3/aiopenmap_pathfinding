@@ -2,6 +2,7 @@
 #include <iostream>
 #include <string_view>
 #include <charconv>
+#include <iterator>
 
 // helpers 
 namespace{
@@ -126,29 +127,44 @@ void GraphExtractor::way(const osmium::Way &way)
     for (const osmium::NodeRef &node : way.nodes())
     {
         currentWay.road_sequence.emplace_back(node.ref());
-        node_ids.insert(node.ref());
+        node_ids.push_back(node.ref());
     }
 
     // direction
     currentWay.direction = extractDirection(way);
 
-    extracted_ways.emplace_back(currentWay);
+    extracted_ways.push_back(std::move(currentWay)); //avoids unnecessary copy
 }
+
+void GraphExtractor::prepare_for_node_extraction(){
+    std::sort(node_ids.begin(), node_ids.end()); //sort for binary search
+     
+    auto last = std::unique(node_ids.begin(), node_ids.end()); //remove dupes
+    node_ids.erase(last, node_ids.end()); //erase extra
+
+    node_ids.shrink_to_fit(); // deallocate extra memory
+    node_locs.assign(node_ids.size(), NodeLocation{0.0, 0.0}); 
+}
+
+
 
 void GraphExtractor::node(const osmium::Node &node)
 {
+    prepare_for_node_extraction();
     if(!node.location().valid()){
         return;
     }
 
-    if(node_ids.find(node.id()) != node_ids.end()){
-        node_locs.emplace(node.id(), 
-        NodeLocation{node.location().lat(), node.location().lon()});
+    auto it = std::lower_bound(node_ids.begin(), node_ids.end(), node.id());
+    if(it != node_ids.end() && *it == node.id()){
+
+        uint32_t index = static_cast<uint32_t>(std::distance(node_ids.begin(), it));
+        node_locs[index] = NodeLocation{node.location().lat(), node.location().lon()};
     }
 }
 
 // getters
-const std::unordered_set<uint64_t>& GraphExtractor::getNodes() const 
+const std::vector<uint64_t>& GraphExtractor::getNodes() const 
 {
     return node_ids;
 }
@@ -158,7 +174,7 @@ const std::vector<ExtractedWay>& GraphExtractor::getExtractedWays() const
     return extracted_ways;
 }
 
-const std::unordered_map<uint64_t, NodeLocation>& GraphExtractor::getNodeLocs() const
+const std::vector<NodeLocation>& GraphExtractor::getNodeLocs() const
 {
     return node_locs;
 }
