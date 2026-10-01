@@ -37,7 +37,13 @@ void extract_graph(const std::string& filename, GraphExtractor& handler)
 
 int main(int argc, char *argv[])
 {
-    std::string filename = "data/us-midwest.osm.pbf";
+    if(argc < 2){
+        std::cout << "Use: ./build/GraphBuilder filename.osm.pbf" << "\n";
+        return 1;
+    }
+
+    std::string filename = argv[1];
+
     GraphExtractor handler {}; 
 
     extract_graph(filename, handler);

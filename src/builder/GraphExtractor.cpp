@@ -148,17 +148,17 @@ void GraphExtractor::node(const osmium::Node &node)
 }
 
 // getters
-std::unordered_set<uint64_t> GraphExtractor::getNodes() const 
+const std::unordered_set<uint64_t>& GraphExtractor::getNodes() const 
 {
     return node_ids;
 }
 
-std::vector<ExtractedWay> GraphExtractor::getExtractedWays() const
+const std::vector<ExtractedWay>& GraphExtractor::getExtractedWays() const
 {
     return extracted_ways;
 }
 
-std::unordered_map<uint64_t, NodeLocation> GraphExtractor::getNodeLocs() const
+const std::unordered_map<uint64_t, NodeLocation>& GraphExtractor::getNodeLocs() const
 {
     return node_locs;
 }

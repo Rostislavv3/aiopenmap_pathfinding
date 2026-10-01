@@ -30,9 +30,9 @@ struct NodeLocation{
 
 class GraphExtractor : public osmium::handler::Handler {
     public:
-        std::unordered_set<uint64_t> getNodes() const;
-        std::vector<ExtractedWay> getExtractedWays() const;
-        std::unordered_map<uint64_t, NodeLocation> getNodeLocs() const;
+        const std::unordered_set<uint64_t>& getNodes() const;
+        const std::vector<ExtractedWay>& getExtractedWays() const;
+        const std::unordered_map<uint64_t, NodeLocation>& getNodeLocs() const;
 
         void way(const osmium::Way& way);
         void node(const osmium::Node& node);
