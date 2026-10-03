@@ -8,12 +8,14 @@
 #include <osmium/osm/way.hpp>
 #include <unordered_set>
 #include <unordered_map>
+#include <chrono>
 
 #include "GraphExtractor.h"
 #include "GraphAssembler.h"
 #include "common/Edge.h"
 #include "common/Vertex.h"
 #include "haversine_km.h"
+
 
 
 void extract_graph(const std::string& filename, GraphExtractor& handler)
@@ -24,7 +26,9 @@ void extract_graph(const std::string& filename, GraphExtractor& handler)
     way_reader.close();
     }  
     std::cout<<"stage 1 pass" << std::endl;
-    
+    std::cout << "prepare for node extraction" << "\n";
+    handler.prepare_for_node_extraction();
+    std::cout << "prepare for node extraction - done" << "\n";
     {
     osmium::io::Reader node_reader{filename, osmium::osm_entity_bits::node};
     osmium::apply(node_reader, handler);
@@ -41,14 +45,18 @@ int main(int argc, char *argv[])
         std::cout << "Use: ./build/GraphBuilder filename.osm.pbf" << "\n";
         return 1;
     }
-
+    auto start = std::chrono::high_resolution_clock::now();
     std::string filename = argv[1];
-
+    
     GraphExtractor handler {}; 
 
     extract_graph(filename, handler);
     //build the graph
 
+    auto end = std::chrono::high_resolution_clock::now();
 
+    std::chrono::duration<double, std::milli> elapsed = end - start;
+    std::cout << "Waited for " << elapsed.count() << " ms\n";
+    std::cout << "or for " << elapsed.count()/60000 << " min\n";
     return 0;
 }

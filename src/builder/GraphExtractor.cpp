@@ -150,7 +150,6 @@ void GraphExtractor::prepare_for_node_extraction(){
 
 void GraphExtractor::node(const osmium::Node &node)
 {
-    prepare_for_node_extraction();
     if(!node.location().valid()){
         return;
     }
