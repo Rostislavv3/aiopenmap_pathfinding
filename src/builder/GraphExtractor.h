@@ -2,7 +2,6 @@
 #include <osmium/handler.hpp>
 #include <osmium/osm/way.hpp>
 #include <osmium/osm/node.hpp>
-#include <unordered_set>
 #include <vector>
 
 // this function extracts ways and keeps the order of the nodes in a struct called
@@ -18,8 +17,10 @@ struct ExtractedWay
         Bidirectional,
     };
     Direction direction;
-    std::vector<uint64_t> road_sequence;
-    size_t speed_limit_mph;
+    // instead of keeping a vector for each way, we will keep every way sequence in a separate vector,
+    // and only store the beginning index of a particular way
+    uint32_t index_in_all_ways;
+    size_t speed_limit_mph = 0;
 };
 
 struct NodeLocation{
@@ -33,6 +34,7 @@ class GraphExtractor : public osmium::handler::Handler {
         const std::vector<uint64_t>& getNodes() const;
         const std::vector<ExtractedWay>& getExtractedWays() const;
         const std::vector<NodeLocation>& getNodeLocs() const;
+        const std::vector<uint32_t>& getAllWays() const;
         void prepare_for_node_extraction();
 
         void way(const osmium::Way& way);
@@ -42,4 +44,6 @@ class GraphExtractor : public osmium::handler::Handler {
         std::vector<uint64_t> node_ids;
         std::vector<NodeLocation> node_locs;
         std::vector<ExtractedWay> extracted_ways;
+        std::vector<uint64_t> raw_refs; //it is a temp strorage for ids before serialization
+        std::vector<uint32_t> all_ways;
 };

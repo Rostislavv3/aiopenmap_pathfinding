@@ -1,4 +1,5 @@
 #include <iostream>
+#include <fstream>
 // 1. For reading the compressed .pbf file format
 #include <osmium/io/pbf_input.hpp>
 #include <osmium/handler.hpp>
@@ -6,8 +7,6 @@
 
 #include <osmium/osm/node.hpp>
 #include <osmium/osm/way.hpp>
-#include <unordered_set>
-#include <unordered_map>
 #include <chrono>
 
 #include "GraphExtractor.h"
@@ -47,14 +46,20 @@ int main(int argc, char *argv[])
     }
     auto start = std::chrono::high_resolution_clock::now();
     std::string filename = argv[1];
+
+    std::ifstream ifile(filename);
+    if (!ifile.is_open()) {
+        std::cerr << "Error: Could not open the file!\n";
+        return 1;
+    }
     
     GraphExtractor handler {}; 
 
     extract_graph(filename, handler);
-    //build the graph
+    //build the graph here
+
 
     auto end = std::chrono::high_resolution_clock::now();
-
     std::chrono::duration<double, std::milli> elapsed = end - start;
     std::cout << "Waited for " << elapsed.count() << " ms\n";
     std::cout << "or for " << elapsed.count()/60000 << " min\n";
