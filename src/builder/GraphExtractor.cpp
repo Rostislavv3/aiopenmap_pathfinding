@@ -154,8 +154,7 @@ void GraphExtractor::prepare_for_node_extraction()
     node_ids.erase(last, node_ids.end());                      // erase extra
 
     node_ids.shrink_to_fit(); // deallocate extra memory
-    node_locs.assign(node_ids.size(), NodeLocation{0.0, 0.0});
-
+    
     all_ways.reserve(raw_refs.size());
     for (size_t i = 0; i < raw_refs.size(); ++i)
     {
@@ -163,9 +162,11 @@ void GraphExtractor::prepare_for_node_extraction()
         uint32_t index = static_cast<uint32_t>(std::distance(node_ids.begin(), it));
         all_ways.push_back(index);
     }
-
+    
     raw_refs.clear();
     raw_refs.shrink_to_fit();
+
+    node_locs.assign(node_ids.size(), NodeLocation{INT32_MAX, INT32_MAX});
 }
 
 void GraphExtractor::node(const osmium::Node &node)
@@ -179,7 +180,7 @@ void GraphExtractor::node(const osmium::Node &node)
     if (it != node_ids.end() && *it == node.id())
     {
         uint32_t index = static_cast<uint32_t>(std::distance(node_ids.begin(), it));
-        node_locs[index] = NodeLocation{node.location().lat(), node.location().lon()};
+        node_locs[index] = NodeLocation{node.location().y(), node.location().x()};
     }
 }
 

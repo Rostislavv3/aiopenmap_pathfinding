@@ -24,8 +24,8 @@ struct ExtractedWay
 };
 
 struct NodeLocation{
-    double lat;
-    double lon;
+    int32_t lat;
+    int32_t lon;
 };
 
 
