@@ -7,7 +7,6 @@
 
 #include <osmium/osm/node.hpp>
 #include <osmium/osm/way.hpp>
-#include <chrono>
 
 #include "GraphExtractor.h"
 #include "GraphAssembler.h"
@@ -44,24 +43,18 @@ int main(int argc, char *argv[])
         std::cout << "Use: ./build/GraphBuilder filename.osm.pbf" << "\n";
         return 1;
     }
-    auto start = std::chrono::high_resolution_clock::now();
     std::string filename = argv[1];
-
     std::ifstream ifile(filename);
     if (!ifile.is_open()) {
         std::cerr << "Error: Could not open the file!\n";
         return 1;
     }
-    
+    ifile.close();
+
     GraphExtractor handler {}; 
 
     extract_graph(filename, handler);
     //build the graph here
 
-
-    auto end = std::chrono::high_resolution_clock::now();
-    std::chrono::duration<double, std::milli> elapsed = end - start;
-    std::cout << "Waited for " << elapsed.count() << " ms\n";
-    std::cout << "or for " << elapsed.count()/60000 << " min\n";
     return 0;
 }

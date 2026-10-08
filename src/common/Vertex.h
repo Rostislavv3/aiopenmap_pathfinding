@@ -1,13 +1,12 @@
 #pragma once
 
-#include <vector>
-
+#include <cstdint>
 #include "Edge.h"
 
 struct Vertex
 {
-    double lat;
-    double lon;
-    std::vector<Edge*> outgoing_edges{};
+    int32_t lat;
+    int32_t lon;
+    uint32_t first_edge_ind;
 };
 
