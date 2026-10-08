@@ -45,5 +45,5 @@ class GraphExtractor : public osmium::handler::Handler {
         std::vector<NodeLocation> node_locs;
         std::vector<ExtractedWay> extracted_ways;
         std::vector<uint64_t> raw_refs; //it is a temp strorage for ids before serialization
-        std::vector<uint32_t> all_ways;
+        std::vector<uint32_t> all_ways; //
 };
