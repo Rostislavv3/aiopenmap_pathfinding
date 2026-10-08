@@ -19,17 +19,40 @@ namespace{
         for(size_t i = 0; i < extractedWays.size(); ++i){
             const ExtractedWay& currWay = extractedWays[i];
             size_t start = currWay.index_in_all_ways;
-            size_t end = i + 1 < extractedWays.size() ? extractedWays[i + 1].index_in_all_ways : extractedWays.size();
-
+            size_t end = i + 1 < extractedWays.size() ? extractedWays[i + 1].index_in_all_ways : allWays.size();
             
             while (start < end){
-                if(start + 1 < end){ //doesn't look for pairs in invalid single value ways
-                    
+                //probably need to refactor this condition
+                //doesn't look for pairs in invalid single value ways
+                //use all ways to look up the vertex and increment the count of the vertex on the same index
+                if(currWay.direction == ExtractedWay::Direction::Forward){
+                    if(start + 1 < end){
+                        graph.vertices[allWays[start]].first_edge_ind += 1;
+                        sum += 1;
+                    }
+                    start += 1;
+
+                }
+                else if(currWay.direction == ExtractedWay::Direction::Reverse){
+                    if(end - 1 > start){
+                        graph.vertices[allWays[end - 1]].first_edge_ind += 1;
+                        sum += 1;
+                    }
+                    end -= 1;
+                }
+                else if(currWay.direction == ExtractedWay::Direction::Bidirectional){
+                    if(start + 1 < end){
+                        graph.vertices[allWays[start]].first_edge_ind += 1;
+                        graph.vertices[allWays[start + 1]].first_edge_ind += 1;
+                        sum += 2;
+                    }
+                    start += 1;
                 }
             }
-
         }
+        return sum;
     }
+
 
     void buildVertices(const GraphExtractor& handler, Graph& graph){
         size_t num_vertices = handler.getNodeLocs().size();
@@ -44,7 +67,7 @@ namespace{
 
     void buildEdges(const GraphExtractor& handler, Graph& graph){
         size_t sum_edges = countEdges(handler, graph);
-
+        
     }
 }
 
