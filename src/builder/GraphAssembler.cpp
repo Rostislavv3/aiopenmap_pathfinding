@@ -11,16 +11,17 @@ constexpr uint32_t NO_EDGE = std::numeric_limits<uint32_t>::max();
 
 
 namespace{
+    void placeEdges(const GraphExtractor& handler, Graph& graph){
+
+    }
+
     void initializeEdges(Graph& graph, size_t count){
         graph.edges.assign(count, Edge{NO_EDGE, 0.0, 0, 0.0});
         uint32_t running_sum = 0;
         for (Vertex& currVert : graph.vertices){
             size_t num_edges = currVert.first_edge_ind;
             currVert.first_edge_ind = running_sum;
-
-            for(size_t i = 0; i < num_edges; i++){
-                running_sum += 1;
-            }
+            running_sum += num_edges;
         }
     }
 
@@ -35,7 +36,6 @@ namespace{
             size_t end = i + 1 < extractedWays.size() ? extractedWays[i + 1].index_in_all_ways : allWays.size();
             
             while (start < end){
-                //probably need to refactor this condition
                 //doesn't look for pairs in invalid single value ways
                 //use all ways to look up the vertex and increment the count of the vertex on the same index
                 if(currWay.direction == ExtractedWay::Direction::Forward){
@@ -80,7 +80,8 @@ namespace{
 
     void buildEdges(const GraphExtractor& handler, Graph& graph){
         size_t sum_edges = countEdges(handler, graph);
-        initializeEdges(graph, sum_edges); //initialize edges' array and set the respective edge index using runnung sum
+        initializeEdges(graph, sum_edges); //initialize edges' array and set the respective vertex index using runnung sum
+        placeEdges(handler, graph); //
     }
 }
 
