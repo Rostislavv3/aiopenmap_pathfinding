@@ -13,6 +13,15 @@ find_package(Osmium REQUIRED COMPONENTS pbf)
 find_package(ZLIB REQUIRED)
 find_package(EXPAT REQUIRED)
 
+option(ENABLE_ASAN "Enable Address and Leak sanitizer" OFF)
+
+if(ENABLE_ASAN)
+    message(STATUS "AddressSanitizer & LeakSanitizer enabled")
+    # Must be added as both compile options and link options
+    add_compile_options(-fsanitize=address -fno-omit-frame-pointer -g)
+    add_link_options(-fsanitize=address)
+endif()
+
 add_executable(GraphBuilder) #adds graph builder
 target_sources(GraphBuilder 
     PRIVATE
