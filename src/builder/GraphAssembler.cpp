@@ -11,6 +11,19 @@ constexpr uint32_t NO_EDGE = std::numeric_limits<uint32_t>::max();
 
 
 namespace{
+    void initializeEdges(Graph& graph, size_t count){
+        graph.edges.assign(count, Edge{NO_EDGE, 0.0, 0, 0.0});
+        uint32_t running_sum = 0;
+        for (Vertex& currVert : graph.vertices){
+            size_t num_edges = currVert.first_edge_ind;
+            currVert.first_edge_ind = running_sum;
+
+            for(size_t i = 0; i < num_edges; i++){
+                running_sum += 1;
+            }
+        }
+    }
+
     size_t countEdges(const GraphExtractor& handler, Graph& graph){
         size_t sum = 0;
         const std::vector<ExtractedWay>& extractedWays = handler.getExtractedWays();
@@ -67,7 +80,7 @@ namespace{
 
     void buildEdges(const GraphExtractor& handler, Graph& graph){
         size_t sum_edges = countEdges(handler, graph);
-        
+        initializeEdges(graph, sum_edges); //initialize edges' array and set the respective edge index using runnung sum
     }
 }
 
