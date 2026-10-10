@@ -43,7 +43,6 @@ namespace
     {
         const std::vector<ExtractedWay> &extractedWays = handler.getExtractedWays();
         const std::vector<uint32_t> &allWays = handler.getAllWays();
-        std::vector<Edge> &edges = graph.edges;
 
         for (size_t i = 0; i < extractedWays.size(); ++i)
         {
