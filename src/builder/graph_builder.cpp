@@ -52,11 +52,12 @@ int main(int argc, char *argv[])
     ifile.close();
 
     GraphExtractor handler {}; 
-    GraphAssembler assembler {handler};
-
-    assembler.BuildGraph();
+    
     extract_graph(filename, handler);
     //build the graph here
-
+    std::cout << "starts graph assembly" << "\n";
+    GraphAssembler assembler {handler};
+    assembler.BuildGraph();
+    std::cout << "graph assembled" << "\n";
     return 0;
 }
