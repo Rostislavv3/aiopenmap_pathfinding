@@ -6,7 +6,7 @@
 struct Edge
 {
     uint32_t target_node;
-    double distance_km;
-    size_t speed_limit;
-    double time_seconds;
+    float distance_km;
+    unsigned short speed_limit;
+    float time_seconds;
 };
