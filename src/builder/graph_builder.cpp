@@ -52,7 +52,9 @@ int main(int argc, char *argv[])
     ifile.close();
 
     GraphExtractor handler {}; 
+    GraphAssembler assembler {handler};
 
+    assembler.BuildGraph();
     extract_graph(filename, handler);
     //build the graph here
 
