@@ -2,7 +2,6 @@
 #include <fstream>
 // 1. For reading the compressed .pbf file format
 #include <osmium/io/pbf_input.hpp>
-#include <osmium/handler.hpp>
 #include <osmium/visitor.hpp>
 
 #include <osmium/osm/node.hpp>
@@ -10,9 +9,7 @@
 
 #include "GraphExtractor.h"
 #include "GraphAssembler.h"
-#include "common/Edge.h"
-#include "common/Vertex.h"
-#include "haversine_km.h"
+#include "Serializer.h"
 
 
 
@@ -59,5 +56,8 @@ int main(int argc, char *argv[])
     GraphAssembler assembler {handler};
     assembler.BuildGraph();
     std::cout << "graph assembled" << "\n";
+
+    delete &handler;
+
     return 0;
 }

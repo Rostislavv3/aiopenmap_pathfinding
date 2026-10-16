@@ -173,3 +173,7 @@ void GraphAssembler::BuildGraph()
     buildVertices(handler, graph); // populates graph's vertices
     buildEdges(handler, graph);    // populates edges
 }
+
+const Graph& GraphAssembler::getGraph() const {
+    return graph;
+}
