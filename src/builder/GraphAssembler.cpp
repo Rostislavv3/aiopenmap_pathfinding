@@ -172,6 +172,7 @@ void GraphAssembler::BuildGraph()
 {
     buildVertices(handler, graph); // populates graph's vertices
     buildEdges(handler, graph);    // populates edges
+    graph.real_ids = handler.getNodes();
 }
 
 const Graph& GraphAssembler::getGraph() const {

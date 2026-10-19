@@ -9,7 +9,7 @@
 
 #include "GraphExtractor.h"
 #include "GraphAssembler.h"
-#include "Serializer.h"
+#include "serialize.h"
 
 
 
@@ -48,16 +48,26 @@ int main(int argc, char *argv[])
     }
     ifile.close();
 
-    GraphExtractor handler {}; 
+    GraphExtractor* handler = new GraphExtractor{}; 
     
-    extract_graph(filename, handler);
+    extract_graph(filename, *handler);
     //build the graph here
     std::cout << "starts graph assembly" << "\n";
-    GraphAssembler assembler {handler};
+    GraphAssembler assembler {*handler};
     assembler.BuildGraph();
     std::cout << "graph assembled" << "\n";
 
-    delete &handler;
+    delete handler;
+    handler = nullptr;
 
-    return 0;
+    std::cout << "starts graph serialization" << "\n";
+    bool success = serialize(assembler.getGraph(), filename);
+    std::cout << "done graph serialization, ";
+    if (success){
+        std::cout << "success." << "\n";
+    } else {
+        std::cout << "fail." << "\n";
+    }
+
+    return success ? 0 : 1;
 }
