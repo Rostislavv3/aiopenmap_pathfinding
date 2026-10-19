@@ -94,3 +94,71 @@ inline bool serialize_json(const Graph &graph, const std::string &outfile)
 
     return ofile.good();
 }
+
+// writes every edge as a GeoJSON LineString, open the file in geojson.io or QGIS to see the graph on a map
+inline bool serialize_geojson(const Graph &graph, const std::string &outfile)
+{
+
+    std::filesystem::path outfile_fs = outfile;
+
+    std::string outfile_name = outfile_fs.parent_path() / (outfile_fs.stem().stem());
+    outfile_name += "_graph.geojson";
+
+    std::ofstream ofile(outfile_name);
+
+    if (!ofile.is_open())
+    {
+        return false;
+    }
+
+    ofile << std::setprecision(10);
+
+    ofile << "{\"type\": \"FeatureCollection\", \"features\": [" << "\n";
+
+    bool first = true; // features can be skipped, so the comma can't be decided by the index
+    size_t skipped = 0;
+    for (size_t i = 0; i < graph.vertices.size(); i++)
+    {
+        const Vertex &from = graph.vertices[i];
+        uint32_t bound = i + 1 == graph.vertices.size() ? graph.edges.size() : graph.vertices[i + 1].first_edge_ind;
+        for (uint32_t j = from.first_edge_ind; j < bound; j++)
+        {
+            const Edge &edge = graph.edges[j];
+            // skip empty slots and nodes whose location was never found, they would break the map
+            if (edge.target_node >= graph.vertices.size() || from.lat == INT32_MAX ||
+                graph.vertices[edge.target_node].lat == INT32_MAX)
+            {
+                skipped++;
+                continue;
+            }
+            const Vertex &to = graph.vertices[edge.target_node];
+
+            if (!first)
+            {
+                ofile << "," << "\n";
+            }
+            first = false;
+
+            // GeoJSON coordinates are [lon, lat]
+            ofile << "{\"type\": \"Feature\", \"geometry\": {\"type\": \"LineString\", \"coordinates\": ["
+                  << "[" << int_to_degrees(from.lon) << ", " << int_to_degrees(from.lat) << "], "
+                  << "[" << int_to_degrees(to.lon) << ", " << int_to_degrees(to.lat) << "]]}, "
+                  << "\"properties\": {\"from\": " << i
+                  << ", \"to\": " << edge.target_node
+                  << ", \"from_osm\": " << graph.real_ids[i]
+                  << ", \"to_osm\": " << graph.real_ids[edge.target_node]
+                  << ", \"km\": " << edge.distance_km
+                  << ", \"mph\": " << edge.speed_limit
+                  << ", \"sec\": " << edge.time_seconds
+                  << "}}";
+        }
+    }
+    ofile << "\n" << "]}" << "\n";
+
+    if (skipped > 0)
+    {
+        std::cout << "geojson: skipped " << skipped << " edges with missing node locations" << "\n";
+    }
+
+    return ofile.good();
+}
