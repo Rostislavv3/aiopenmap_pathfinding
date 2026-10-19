@@ -37,9 +37,10 @@ void extract_graph(const std::string& filename, GraphExtractor& handler)
 int main(int argc, char *argv[])
 {
     if(argc < 2){
-        std::cout << "Use: ./build/GraphBuilder filename.osm.pbf" << "\n";
+        std::cout << "Use: ./build/GraphBuilder filename.osm.pbf (optional)-d" << "\n";
         return 1;
     }
+
     std::string filename = argv[1];
     std::ifstream ifile(filename);
     if (!ifile.is_open()) {
@@ -60,14 +61,22 @@ int main(int argc, char *argv[])
     delete handler;
     handler = nullptr;
 
-    std::cout << "starts graph serialization" << "\n";
-    bool success = serialize(assembler.getGraph(), filename);
-    std::cout << "done graph serialization, ";
-    if (success){
-        std::cout << "success." << "\n";
-    } else {
-        std::cout << "fail." << "\n";
-    }
+    if(argc > 2 and argv[2] =="-d" or argv[2] =="--debug"){
+      std::cout << "starts_json graph serialization" << "\n";
+      serialize_json(assembler.getGraph(), filename);  
+      std::cout << "done json_graph serialization, ";
 
-    return success ? 0 : 1;
+      bool success = serialize(assembler.getGraph(), filename);
+    } 
+    else{
+        std::cout << "starts graph serialization" << "\n";
+        bool success = serialize(assembler.getGraph(), filename);
+        std::cout << "done graph serialization, ";
+        if (success){
+            std::cout << "success." << "\n";
+        } else {
+            std::cout << "fail." << "\n";
+        }
+        return success ? 0 : 1;
+    }
 }
