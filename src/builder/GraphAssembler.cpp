@@ -10,8 +10,6 @@
 
 // a place holder to differentiate where vertex block in edges end
 constexpr uint32_t NO_EDGE = std::numeric_limits<uint32_t>::max();
-constexpr double KMCONV = 1.609344;
-constexpr double HRTOSEC = 3600;
 
 namespace
 {
@@ -35,8 +33,8 @@ namespace
         graph.edges[positionInEdges] = Edge{
             static_cast<uint32_t>(nextVertexInd),
             static_cast<float>(distance),
-            speed,
-            static_cast<float>(distance / speed / KMCONV * HRTOSEC)};
+            speed
+        };
     }
 
     void placeEdges(const GraphExtractor &handler, Graph &graph)
@@ -84,7 +82,7 @@ namespace
 
     void initializeEdges(Graph &graph, size_t count)
     {
-        graph.edges.assign(count, Edge{NO_EDGE, 0.0, 0, 0.0});
+        graph.edges.assign(count, Edge{NO_EDGE, 0.0, 0});
         uint32_t running_sum = 0;
         for (Vertex &currVert : graph.vertices)
         {
