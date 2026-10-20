@@ -55,7 +55,7 @@ namespace
                 if (currWay.direction == ExtractedWay::Direction::Forward)
                 {
                     if (start + 1 < end){
-                        placeEdge(graph, allWays[start], allWays[start + 1], static_cast<unsigned short>(currWay.speed_limit_mph));
+                        placeEdge(graph, allWays[start], allWays[start + 1], static_cast<unsigned short>(currWay.speed_limit_kmh));
                     }
                     start += 1;
                 }
@@ -63,7 +63,7 @@ namespace
                 {
                     if (end - 1 > start)
                     {
-                         placeEdge(graph, allWays[end - 1], allWays[end - 2], static_cast<unsigned short>(currWay.speed_limit_mph));
+                         placeEdge(graph, allWays[end - 1], allWays[end - 2], static_cast<unsigned short>(currWay.speed_limit_kmh));
                     }
                     end -= 1;
                 }
@@ -71,8 +71,8 @@ namespace
                 {
                     if (start + 1 < end)
                     {
-                         placeEdge(graph, allWays[start], allWays[start + 1], static_cast<unsigned short>(currWay.speed_limit_mph));
-                          placeEdge(graph, allWays[start + 1], allWays[start], static_cast<unsigned short>(currWay.speed_limit_mph));
+                         placeEdge(graph, allWays[start], allWays[start + 1], static_cast<unsigned short>(currWay.speed_limit_kmh));
+                          placeEdge(graph, allWays[start + 1], allWays[start], static_cast<unsigned short>(currWay.speed_limit_kmh));
                     }
                     start += 1;
                 }
