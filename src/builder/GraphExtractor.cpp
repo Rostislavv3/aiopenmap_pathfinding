@@ -74,7 +74,7 @@ namespace
         double speed = 0;
         string_speed_extractor(ref_to_speed_tag, speed);
 
-        if (ref_to_speed_tag.find("mph") == std::string::npos)
+        if (ref_to_speed_tag.find("mph") != std::string::npos)
         {
             speed = speed * 1.60934;
         }
@@ -101,37 +101,37 @@ void GraphExtractor::way(const osmium::Way &way)
     if (currentWay.speed_limit_kmh == 0){
         std::string_view ref_to_highway_tag(highway_tag);
         if (ref_to_highway_tag == "motorway")
-            currentWay.speed_limit_kmh = 65;
+            currentWay.speed_limit_kmh = 105;
         else if (ref_to_highway_tag == "motorway_link")
-            currentWay.speed_limit_kmh = 40;
+            currentWay.speed_limit_kmh = 64;
         else if (ref_to_highway_tag == "trunk")
-            currentWay.speed_limit_kmh = 55;
+            currentWay.speed_limit_kmh = 89;
         else if (ref_to_highway_tag == "trunk_link")
-            currentWay.speed_limit_kmh = 35;
+            currentWay.speed_limit_kmh = 56;
         else if (ref_to_highway_tag == "primary")
-            currentWay.speed_limit_kmh = 45;
+            currentWay.speed_limit_kmh = 72;
         else if (ref_to_highway_tag == "primary_link")
-            currentWay.speed_limit_kmh = 30;
+            currentWay.speed_limit_kmh = 48;
         else if (ref_to_highway_tag == "secondary")
-            currentWay.speed_limit_kmh = 35;
+            currentWay.speed_limit_kmh = 56;
         else if (ref_to_highway_tag == "secondary_link")
-            currentWay.speed_limit_kmh = 25;
+            currentWay.speed_limit_kmh = 40;
         else if (ref_to_highway_tag == "tertiary")
-            currentWay.speed_limit_kmh = 30;
+            currentWay.speed_limit_kmh = 48;
         else if (ref_to_highway_tag == "tertiary_link")
-            currentWay.speed_limit_kmh = 20;
+            currentWay.speed_limit_kmh = 32;
         else if (ref_to_highway_tag == "unclassified")
-            currentWay.speed_limit_kmh = 35;
+            currentWay.speed_limit_kmh = 56;
         else if (ref_to_highway_tag == "residential")
-            currentWay.speed_limit_kmh = 25;
+            currentWay.speed_limit_kmh = 40;
         else if (ref_to_highway_tag == "living_street")
-            currentWay.speed_limit_kmh = 15;
+            currentWay.speed_limit_kmh = 24;
         else if (ref_to_highway_tag == "service")
-            currentWay.speed_limit_kmh = 10;
+            currentWay.speed_limit_kmh = 16;
         else if (ref_to_highway_tag == "track")
-            currentWay.speed_limit_kmh = 15;
+            currentWay.speed_limit_kmh = 24;
         else
-            currentWay.speed_limit_kmh = 25;
+            currentWay.speed_limit_kmh = 40;
     }
     currentWay.index_in_all_ways = raw_refs.size();
     for (const osmium::NodeRef &node : way.nodes())
