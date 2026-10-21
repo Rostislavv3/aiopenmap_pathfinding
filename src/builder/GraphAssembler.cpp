@@ -6,7 +6,7 @@
 #include <cstdint>
 #include <limits>
 #include <vector>
-#include "haversine_km.h"
+#include "common/haversine_km.h"
 
 // a place holder to differentiate where vertex block in edges end
 constexpr uint32_t NO_EDGE = std::numeric_limits<uint32_t>::max();

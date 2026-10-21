@@ -6,6 +6,8 @@
 #include "common/IntToDegrees.h"
 #include <filesystem>
 #include <iomanip>
+#include "common/Vertex.h"
+#include "common/Vertex.h"
 
 inline bool serialize(const Graph &graph, const std::string &outfile)
 {
@@ -124,8 +126,8 @@ inline bool serialize_geojson(const Graph &graph, const std::string &outfile)
         {
             const Edge &edge = graph.edges[j];
             // skip empty slots and nodes whose location was never found, they would break the map
-            if (edge.target_node >= graph.vertices.size() || from.lat == INT32_MAX ||
-                graph.vertices[edge.target_node].lat == INT32_MAX)
+            if (edge.target_node >= graph.vertices.size() || from.lat == NO_LOCATION ||
+                graph.vertices[edge.target_node].lat == NO_LOCATION)
             {
                 skipped++;
                 continue;
