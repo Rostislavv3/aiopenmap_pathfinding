@@ -12,6 +12,10 @@
 #include "serialize.h"
 #include <string_view>
 
+void remove_missing_nodes(){
+
+}
+
 void extract_graph(const std::string &filename, GraphExtractor &handler)
 {
     {
@@ -29,6 +33,7 @@ void extract_graph(const std::string &filename, GraphExtractor &handler)
         node_reader.close();
     }
     std::cout << "stage 2 pass" << "\n";
+    remove_missing_nodes();
 }
 
 int main(int argc, char *argv[])

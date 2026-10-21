@@ -14,5 +14,5 @@ struct Vertex
 };
 
 inline bool hasLocation(const Vertex& v){
-    return  v.lat != NO_LOCATION || v.lon != NO_LOCATION;
+    return  v.lat != NO_LOCATION && v.lon != NO_LOCATION;
 }

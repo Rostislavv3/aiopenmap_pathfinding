@@ -4,6 +4,7 @@
 #include <charconv>
 #include <iterator>
 #include <algorithm>
+#include "common/Vertex.h"
 #include <cmath>
 
 namespace
@@ -204,7 +205,7 @@ void GraphExtractor::prepare_for_node_extraction()
     raw_refs.clear();
     raw_refs.shrink_to_fit();
 
-    node_locs.assign(node_ids.size(), NodeLocation{INT32_MAX, INT32_MAX});
+    node_locs.assign(node_ids.size(), NodeLocation{NO_LOCATION, NO_LOCATION});
 }
 
 void GraphExtractor::node(const osmium::Node &node)
