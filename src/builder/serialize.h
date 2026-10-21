@@ -73,7 +73,7 @@ inline bool serialize_json(const Graph &graph, const std::string &outfile)
         {
             ofile << "{\"to\": " << graph.edges[j].target_node
                   << ", \"km\": " << graph.edges[j].distance_km
-                  << ", \"mph\": " << graph.edges[j].speed_limit
+                  << ", \"kmh\": " << graph.edges[j].speed_limit
                   << "}";
             if (j + 1 < bound)
             {
@@ -147,7 +147,7 @@ inline bool serialize_geojson(const Graph &graph, const std::string &outfile)
                   << ", \"from_osm\": " << graph.real_ids[i]
                   << ", \"to_osm\": " << graph.real_ids[edge.target_node]
                   << ", \"km\": " << edge.distance_km
-                  << ", \"mph\": " << edge.speed_limit
+                  << ", \"kmh\": " << edge.speed_limit
                   << "}}";
         }
     }

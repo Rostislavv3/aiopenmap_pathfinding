@@ -20,7 +20,7 @@ struct ExtractedWay
     // instead of keeping a vector for each way, we will keep every way sequence in a separate vector,
     // and only store the beginning index of a particular way
     uint32_t index_in_all_ways;
-    size_t speed_limit_mph = 0;
+    size_t speed_limit_kmh = 0;
 };
 
 struct NodeLocation{
