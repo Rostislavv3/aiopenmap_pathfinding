@@ -4,9 +4,47 @@
 #include <charconv>
 #include <iterator>
 #include <algorithm>
+#include <cmath>
 
 namespace
 {
+    unsigned short default_speed_kmh(const char *highway_tag)
+    {
+        std::string_view ref_to_highway_tag(highway_tag);
+        if (ref_to_highway_tag == "motorway")
+            return 105;
+        else if (ref_to_highway_tag == "motorway_link")
+            return 64;
+        else if (ref_to_highway_tag == "trunk")
+            return 89;
+        else if (ref_to_highway_tag == "trunk_link")
+            return 56;
+        else if (ref_to_highway_tag == "primary")
+            return 72;
+        else if (ref_to_highway_tag == "primary_link")
+            return 48;
+        else if (ref_to_highway_tag == "secondary")
+            return 56;
+        else if (ref_to_highway_tag == "secondary_link")
+            return 40;
+        else if (ref_to_highway_tag == "tertiary")
+            return 48;
+        else if (ref_to_highway_tag == "tertiary_link")
+            return 32;
+        else if (ref_to_highway_tag == "unclassified")
+            return 56;
+        else if (ref_to_highway_tag == "residential")
+            return 40;
+        else if (ref_to_highway_tag == "living_street")
+            return 24;
+        else if (ref_to_highway_tag == "service")
+            return 16;
+        else if (ref_to_highway_tag == "track")
+            return 24;
+        else
+            return 0;
+    }
+
     ExtractedWay::Direction extractDirection(const osmium::Way &way)
     {
         const char *oneway_val = way.tags()["oneway"];
@@ -60,7 +98,7 @@ namespace
             start++;
         }
 
-        while (end != start && (*(end-1) < '0' || *(end - 1) > '9'))
+        while (end != start && (*(end - 1) < '0' || *(end - 1) > '9'))
         {
             end--;
         }
@@ -68,7 +106,7 @@ namespace
         std::from_chars(start, end, speed);
     }
 
-    size_t speed_extractor(const char *speed_tag)
+    unsigned short speed_extractor(const char *speed_tag)
     {
         std::string_view ref_to_speed_tag{speed_tag};
         double speed = 0;
@@ -78,7 +116,7 @@ namespace
         {
             speed = speed * 1.60934;
         }
-        return static_cast<std::size_t>(speed);
+        return static_cast<unsigned short>(std::lround(speed));
     }
 }
 
@@ -94,45 +132,24 @@ void GraphExtractor::way(const osmium::Way &way)
 
     const char *maxspeed_tag = way.tags().get_value_by_key("maxspeed");
 
+    if (currentWay.speed_limit_kmh == 0)
+    {
+        currentWay.speed_limit_kmh = default_speed_kmh(highway_tag);
+        if (currentWay.speed_limit_kmh == 0)
+        {
+            return;
+        }
+    }
+
     if (maxspeed_tag)
     {
-        currentWay.speed_limit_kmh = speed_extractor(maxspeed_tag);
+        unsigned short new_speed = speed_extractor(maxspeed_tag);
+        if (new_speed > 0)
+        {
+            currentWay.speed_limit_kmh = new_speed;
+        }
     }
-    if (currentWay.speed_limit_kmh == 0){
-        std::string_view ref_to_highway_tag(highway_tag);
-        if (ref_to_highway_tag == "motorway")
-            currentWay.speed_limit_kmh = 105;
-        else if (ref_to_highway_tag == "motorway_link")
-            currentWay.speed_limit_kmh = 64;
-        else if (ref_to_highway_tag == "trunk")
-            currentWay.speed_limit_kmh = 89;
-        else if (ref_to_highway_tag == "trunk_link")
-            currentWay.speed_limit_kmh = 56;
-        else if (ref_to_highway_tag == "primary")
-            currentWay.speed_limit_kmh = 72;
-        else if (ref_to_highway_tag == "primary_link")
-            currentWay.speed_limit_kmh = 48;
-        else if (ref_to_highway_tag == "secondary")
-            currentWay.speed_limit_kmh = 56;
-        else if (ref_to_highway_tag == "secondary_link")
-            currentWay.speed_limit_kmh = 40;
-        else if (ref_to_highway_tag == "tertiary")
-            currentWay.speed_limit_kmh = 48;
-        else if (ref_to_highway_tag == "tertiary_link")
-            currentWay.speed_limit_kmh = 32;
-        else if (ref_to_highway_tag == "unclassified")
-            currentWay.speed_limit_kmh = 56;
-        else if (ref_to_highway_tag == "residential")
-            currentWay.speed_limit_kmh = 40;
-        else if (ref_to_highway_tag == "living_street")
-            currentWay.speed_limit_kmh = 24;
-        else if (ref_to_highway_tag == "service")
-            currentWay.speed_limit_kmh = 16;
-        else if (ref_to_highway_tag == "track")
-            currentWay.speed_limit_kmh = 24;
-        else
-            currentWay.speed_limit_kmh = 40;
-    }
+
     currentWay.index_in_all_ways = raw_refs.size();
     for (const osmium::NodeRef &node : way.nodes())
     {
@@ -141,7 +158,6 @@ void GraphExtractor::way(const osmium::Way &way)
 
     // direction
     currentWay.direction = extractDirection(way);
-
     extracted_ways.push_back(std::move(currentWay)); // avoids unnecessary copy
 }
 
@@ -154,7 +170,7 @@ void GraphExtractor::prepare_for_node_extraction()
     node_ids.erase(last, node_ids.end());                      // erase extra
 
     node_ids.shrink_to_fit(); // deallocate extra memory
-    
+
     all_ways.reserve(raw_refs.size());
     for (size_t i = 0; i < raw_refs.size(); ++i)
     {
@@ -162,7 +178,7 @@ void GraphExtractor::prepare_for_node_extraction()
         uint32_t index = static_cast<uint32_t>(std::distance(node_ids.begin(), it));
         all_ways.push_back(index);
     }
-    
+
     raw_refs.clear();
     raw_refs.shrink_to_fit();
 
