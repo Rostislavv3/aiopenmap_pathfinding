@@ -36,7 +36,7 @@ class GraphExtractor : public osmium::handler::Handler {
         const std::vector<NodeLocation>& getNodeLocs() const;
         const std::vector<uint32_t>& getAllWays() const;
         void prepare_for_node_extraction();
-
+        void remove_missing_nodes();
         void way(const osmium::Way& way);
         void node(const osmium::Node& node);
 
