@@ -8,6 +8,22 @@
 
 namespace
 {
+    bool check_access(const osmium::Way &way)
+    {
+        constexpr const char *keys[] = {"motorcar", "motor_vehicle", "vehicle", "access"};
+
+        for (const char *key : keys)
+        {
+            std::string_view value(way.tags().get_value_by_key(key, ""));
+            if (value.empty())
+            {
+                continue;
+            }
+            return value != "no" && value != "private";
+        }
+        return true; 
+    }
+
     unsigned short default_speed_kmh(const char *highway_tag)
     {
         std::string_view ref_to_highway_tag(highway_tag);
@@ -130,6 +146,11 @@ void GraphExtractor::way(const osmium::Way &way)
     }
     ExtractedWay currentWay;
 
+    if (!check_access(way))
+    {
+        return;
+    }
+
     const char *maxspeed_tag = way.tags().get_value_by_key("maxspeed");
 
     if (currentWay.speed_limit_kmh == 0)
@@ -149,6 +170,7 @@ void GraphExtractor::way(const osmium::Way &way)
             currentWay.speed_limit_kmh = new_speed;
         }
     }
+
 
     currentWay.index_in_all_ways = raw_refs.size();
     for (const osmium::NodeRef &node : way.nodes())

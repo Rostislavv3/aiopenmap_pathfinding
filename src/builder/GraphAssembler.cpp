@@ -33,8 +33,7 @@ namespace
         graph.edges[positionInEdges] = Edge{
             static_cast<uint32_t>(nextVertexInd),
             static_cast<float>(distance),
-            speed
-        };
+            speed};
     }
 
     void placeEdges(const GraphExtractor &handler, Graph &graph)
@@ -54,7 +53,8 @@ namespace
                 // use all ways to look up the vertex and increment the count of the vertex on the same index
                 if (currWay.direction == ExtractedWay::Direction::Forward)
                 {
-                    if (start + 1 < end){
+                    if (start + 1 < end)
+                    {
                         placeEdge(graph, allWays[start], allWays[start + 1], static_cast<unsigned short>(currWay.speed_limit_kmh));
                     }
                     start += 1;
@@ -63,7 +63,7 @@ namespace
                 {
                     if (end - 1 > start)
                     {
-                         placeEdge(graph, allWays[end - 1], allWays[end - 2], static_cast<unsigned short>(currWay.speed_limit_kmh));
+                        placeEdge(graph, allWays[end - 1], allWays[end - 2], static_cast<unsigned short>(currWay.speed_limit_kmh));
                     }
                     end -= 1;
                 }
@@ -71,8 +71,8 @@ namespace
                 {
                     if (start + 1 < end)
                     {
-                         placeEdge(graph, allWays[start], allWays[start + 1], static_cast<unsigned short>(currWay.speed_limit_kmh));
-                          placeEdge(graph, allWays[start + 1], allWays[start], static_cast<unsigned short>(currWay.speed_limit_kmh));
+                        placeEdge(graph, allWays[start], allWays[start + 1], static_cast<unsigned short>(currWay.speed_limit_kmh));
+                        placeEdge(graph, allWays[start + 1], allWays[start], static_cast<unsigned short>(currWay.speed_limit_kmh));
                     }
                     start += 1;
                 }
@@ -173,6 +173,7 @@ void GraphAssembler::BuildGraph()
     graph.real_ids = handler.getNodes();
 }
 
-const Graph& GraphAssembler::getGraph() const {
+const Graph &GraphAssembler::getGraph() const
+{
     return graph;
 }
