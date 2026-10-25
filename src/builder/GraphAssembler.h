@@ -1,15 +1,8 @@
 #pragma once
-#include "common/Edge.h"
-#include "common/Vertex.h"
 #include "GraphExtractor.h"
-#include <vector>
+#include "common/Graph.h"
 
-struct Graph
-{
-    std::vector<Vertex> vertices;
-    std::vector<Edge> edges;
-    std::vector<uint64_t> real_ids;
-};
+
 
 class GraphAssembler
 {

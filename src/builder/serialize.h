@@ -7,7 +7,7 @@
 #include <filesystem>
 #include <iomanip>
 #include "common/Vertex.h"
-#include "common/Vertex.h"
+#include "common/Edge.h"
 
 inline bool serialize(const Graph &graph, const std::string &outfile)
 {

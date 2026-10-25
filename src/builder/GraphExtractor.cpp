@@ -223,6 +223,10 @@ void GraphExtractor::node(const osmium::Node &node)
     }
 }
 
+void GraphExtractor::remove_missing_nodes(){
+    
+}
+
 // getters
 const std::vector<uint64_t> &GraphExtractor::getNodes() const
 {
