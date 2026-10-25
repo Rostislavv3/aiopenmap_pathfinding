@@ -4,11 +4,19 @@
 #include <charconv>
 #include <iterator>
 #include <algorithm>
-#include "common/Vertex.h"
 #include <cmath>
+
+#include "common/Vertex.h"
+
+
 
 namespace
 {
+
+    bool hasLocation(NodeLocation& node){
+        return node.lat == NO_LOCATION || node.lon == NO_LOCATION;
+    }
+
     bool check_access(const osmium::Way &way)
     {
         constexpr const char *keys[] = {"motorcar", "motor_vehicle", "vehicle", "access"};
@@ -222,6 +230,7 @@ void GraphExtractor::node(const osmium::Node &node)
         node_locs[index] = NodeLocation{node.location().y(), node.location().x()};
     }
 }
+
 
 void GraphExtractor::remove_missing_nodes(){
     
