@@ -8,13 +8,54 @@
 
 #include "common/Vertex.h"
 
-
+constexpr uint32_t NO_VERTEX = UINT32_MAX;
 
 namespace
 {
+    bool hasLocation(const NodeLocation &node)
+    {
+        return node.lat != NO_LOCATION && node.lon != NO_LOCATION;
+    }
 
-    bool hasLocation(NodeLocation& node){
-        return node.lat == NO_LOCATION || node.lon == NO_LOCATION;
+    void rebuildAllWays(std::vector<uint32_t>& all_ways, std::vector<ExtractedWay>& extracted_ways, std::vector<uint32_t>& remap)
+    {
+        std::vector<uint32_t> new_all_ways;
+        std::vector<ExtractedWay> new_extracted_ways;
+        
+    }
+
+    bool clearNoLocationNodes(std::vector<uint64_t> &node_ids, std::vector<NodeLocation> &node_locs, std::vector<uint32_t> &remap)
+    {
+        uint32_t write = 0;
+        uint32_t read = 0;
+        uint32_t len = node_ids.size();
+        remap.assign(node_ids.size(), 0);
+
+        for (; read < len; read++)
+        {
+            const NodeLocation &currNode = node_locs[read];
+            if (hasLocation(currNode))
+            {
+                remap[read] = write;
+                node_ids[write] = node_ids[read];
+                node_locs[write] = node_locs[read];
+                write++;
+            }
+            else
+            {
+                remap[read] = NO_VERTEX;
+            }
+        }
+
+        if (write == len)
+        {
+            return false;
+        }
+
+        node_ids.resize(write);
+        node_locs.resize(write);
+
+        return true;
     }
 
     bool check_access(const osmium::Way &way)
@@ -30,7 +71,7 @@ namespace
             }
             return value != "no" && value != "private";
         }
-        return true; 
+        return true;
     }
 
     unsigned short default_speed_kmh(const char *highway_tag)
@@ -180,7 +221,6 @@ void GraphExtractor::way(const osmium::Way &way)
         }
     }
 
-
     currentWay.index_in_all_ways = raw_refs.size();
     for (const osmium::NodeRef &node : way.nodes())
     {
@@ -231,9 +271,16 @@ void GraphExtractor::node(const osmium::Node &node)
     }
 }
 
+void GraphExtractor::remove_missing_nodes()
+{
+    std::vector<uint32_t> remap;
 
-void GraphExtractor::remove_missing_nodes(){
-    
+    if (!clearNoLocationNodes(node_ids, node_locs, remap))
+    {
+        return;
+    }
+
+    rebuildAllWays(all_ways, extracted_ways, remap);
 }
 
 // getters
