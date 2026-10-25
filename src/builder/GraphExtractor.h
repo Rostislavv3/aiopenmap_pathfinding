@@ -9,18 +9,18 @@
 // lontitude and latitude to thereafter use it in graph construction
 struct ExtractedWay
 {
+    // instead of keeping a vector for each way, we will keep every way sequence in a separate vector,
+    // and only store the beginning index of a particular way
+    uint32_t index_in_all_ways;
+    unsigned short speed_limit_kmh = 0;
     // add enum class for road directions
     // retrieve road directions in cpp file
-    enum class Direction{
+    enum class Direction : uint8_t{
         Reverse,
         Forward,
         Bidirectional,
     };
     Direction direction;
-    // instead of keeping a vector for each way, we will keep every way sequence in a separate vector,
-    // and only store the beginning index of a particular way
-    uint32_t index_in_all_ways;
-    size_t speed_limit_kmh = 0;
 };
 
 struct NodeLocation{

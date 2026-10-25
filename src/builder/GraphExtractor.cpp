@@ -17,11 +17,56 @@ namespace
         return node.lat != NO_LOCATION && node.lon != NO_LOCATION;
     }
 
-    void rebuildAllWays(std::vector<uint32_t>& all_ways, std::vector<ExtractedWay>& extracted_ways, std::vector<uint32_t>& remap)
+    void rebuildAllWays(std::vector<uint32_t> &all_ways, std::vector<ExtractedWay> &extracted_ways, const std::vector<uint32_t> &remap)
     {
-        std::vector<uint32_t> new_all_ways;
+        // rebuilds extracted ways and all ways
+        // all ways is rebuilt in place using write pointer, each new segment indicates new way to append
+        // sigle node ways are popped
         std::vector<ExtractedWay> new_extracted_ways;
-        
+        size_t ways_len = extracted_ways.size();
+        size_t write = 0;
+
+        for (size_t i = 0; i < all_ways.size(); i++)
+        {
+            all_ways[i] = remap[all_ways[i]];
+        }
+
+        for (uint32_t i = 0; i < ways_len; i++)
+        {
+            const auto &curr_way = extracted_ways[i];
+            uint32_t start = extracted_ways[i].index_in_all_ways;
+            uint32_t end = i + 1 < ways_len ? extracted_ways[i + 1].index_in_all_ways : all_ways.size();
+            uint32_t segment_start = write;
+            auto close_segment = [&]()
+            {
+                size_t len = write - segment_start;
+                if (len >= 2)
+                {
+                    new_extracted_ways.push_back(ExtractedWay{segment_start, curr_way.speed_limit_kmh, curr_way.direction});
+                }
+                if (len == 1)
+                {
+                    write--;
+                }
+                segment_start = write;
+            };
+
+            for (; start < end; start++)
+            {
+                if (all_ways[start] != NO_VERTEX)
+                {
+                    all_ways[write] = all_ways[start];
+                    write++;
+                }
+                else
+                {
+                    close_segment();
+                }
+            }
+            close_segment();
+        }
+        all_ways.resize(write);
+        extracted_ways.swap(new_extracted_ways);
     }
 
     bool clearNoLocationNodes(std::vector<uint64_t> &node_ids, std::vector<NodeLocation> &node_locs, std::vector<uint32_t> &remap)
